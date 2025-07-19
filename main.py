@@ -20,21 +20,20 @@ toolbar_frame.pack(side=TOP, fill=X)
 text_frame = Frame(root)
 text_frame.pack(fill=BOTH, expand=True)
 
-# Line Number Sidebar (pack first on LEFT)
-line_numbers = LineNumber(text_frame, font=shared_font)
-line_numbers.pack(side=LEFT, fill=Y)
-
-# Text Widget (pack after line numbers)
+# Text Widget (pack first)
 text = Text(text_frame, wrap=WORD, font=shared_font, undo=True)
+
+# Line Number Sidebar (Canvas-based)
+line_numbers = LineNumber(text_frame, text, bg="lightgrey")
+
+# Pack in correct order
+line_numbers.pack(side=LEFT, fill=Y)
 text.pack(side=LEFT, fill=BOTH, expand=True)
 
 menu = MenuBar(root,text)
 menu.Files()
 menu.Edit()
 menu.View()
-
-# Attach Text Widget to LineNumber
-line_numbers.attach_text_widget(text)
 
 # Scrollbar on RIGHT
 scrollbar = Scrollbar(text_frame, command=text.yview)
