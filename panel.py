@@ -2,8 +2,9 @@ from tkinter import *
 from tkinter import colorchooser
 
 class SlideMenu:
-    def __init__(self, master, text_widget):
+    def __init__(self, master, text_widget, shared_font):
         self.master = master
+        self.shared_font = shared_font
         self.text_widget = text_widget
         self.menu_visible = False
 
@@ -126,13 +127,14 @@ class SlideMenu:
 
     def set_text_size(self, size):
         current_font = self.text_widget.cget("font").split()[0]
-        self.text_widget.config(font=(current_font, int(size)))
+        self.shared_font.configure(size=int(size))
+
 
     def apply_text_size(self):
         size = self.size_slider.get()
-        current_font = self.text_widget.cget("font").split()[0]
-        self.text_widget.config(font=(current_font, int(size)))
+        self.shared_font.configure(size=int(size))
         self.hide_all_subs()
+
 
     def change_text_color(self):
         color = colorchooser.askcolor()[1]
@@ -168,6 +170,8 @@ class SlideMenu:
         slide_out()
 
 if __name__ == "__main__":
+    from tkinter import font
+
     root = Tk()
     root.geometry("700x800")
 
@@ -179,17 +183,20 @@ if __name__ == "__main__":
     text_frame = Frame(root)
     text_frame.pack(fill=BOTH, expand=True)
 
-    text = Text(text_frame, wrap=WORD, font=("Arial", 12))
+    shared_font = font.Font(family="Arial", size=12)
+
+    text = Text(text_frame, wrap=WORD, font=shared_font)
     text.pack(side=LEFT, fill=BOTH, expand=True)
 
-    # Now create SlideMenu with toolbar frame and text widget
-    slide = SlideMenu(root, text)
-    slide.toolbar.destroy()  # Destroy the default toolbar made in SlideMenu
-    slide.toolbar = toolbar_frame  # Assign your toolbar frame
+    slide = SlideMenu(root, text, shared_font)  # Pass shared_font here
+
+    slide.toolbar.destroy()
+    slide.toolbar = toolbar_frame
     slide.menu_button = Button(slide.toolbar, text=" ☰ ", command=slide.toggle_menu)
     slide.menu_button.pack(side=LEFT, padx=2, pady=2)
 
     root.mainloop()
+
 
 
 

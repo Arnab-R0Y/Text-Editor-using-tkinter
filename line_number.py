@@ -2,7 +2,7 @@ from tkinter import *
 
 class LineNumber(Text):
     def __init__(self, master, **kwargs):
-        super().__init__(master, width=2, padx=4, takefocus=0, border=0, background='lightgrey',
+        super().__init__(master, width=2, padx=4, pady=2, takefocus=0, border=0, background='lightgrey',
                          state='disabled', **kwargs)
         self.text_widget = None
 
