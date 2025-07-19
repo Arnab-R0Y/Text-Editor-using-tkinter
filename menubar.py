@@ -14,6 +14,8 @@ class MenuBar:
         file_menu.add_separator()
         file_menu.add_command(label="Save File")
         file_menu.add_command(label="Save As")
+        file_menu.add_separator()
+        file_menu.add_command(label="Exit")
         self.menubar.add_cascade(label="File", menu=file_menu)
 
     def Edit(self):
@@ -24,11 +26,19 @@ class MenuBar:
         edit_menu.add_command(label="Cut")
         edit_menu.add_command(label="Copy")
         edit_menu.add_command(label="Paste")
+        edit_menu.add_separator()
+        edit_menu.add_command(label="Go to")
+        edit_menu.add_separator()
+        edit_menu.add_command(label="Select All")
         self.menubar.add_cascade(label="Edit", menu=edit_menu)
 
     def View(self):
         view_menu = Menu(self.menubar, tearoff=0)
         view_menu.add_command(label="Find")
+        view_menu.add_command(label="Replace")
+        view_menu.add_separator()
+        view_menu.add_command(label="Word Count")
+        view_menu.add_command(label="Character Count")
         self.menubar.add_cascade(label="View", menu=view_menu)
 
 
