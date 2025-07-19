@@ -12,11 +12,6 @@ root.geometry("700x800")
 
 shared_font = tkfont.Font(family="Arial", size=12)
 
-menu = MenuBar(root)
-menu.Files()
-menu.Edit()
-menu.View()
-
 #Toolbar Frame at top (for SlideMenu button)
 toolbar_frame = Frame(root, bg="darkgrey", height=30)
 toolbar_frame.pack(side=TOP, fill=X)
@@ -32,6 +27,11 @@ line_numbers.pack(side=LEFT, fill=Y)
 # Text Widget (pack after line numbers)
 text = Text(text_frame, wrap=WORD, font=shared_font, undo=True)
 text.pack(side=LEFT, fill=BOTH, expand=True)
+
+menu = MenuBar(root,text)
+menu.Files()
+menu.Edit()
+menu.View()
 
 # Attach Text Widget to LineNumber
 line_numbers.attach_text_widget(text)

@@ -2,7 +2,7 @@ from tkinter import *
 
 class LineNumber(Text):
     def __init__(self, master, **kwargs):
-        super().__init__(master, width=2, padx=4, pady=2, takefocus=0, border=0, background='lightgrey',
+        super().__init__(master, width=2, padx=4, pady=3, takefocus=0, border=0, background='lightgrey',
                          state='disabled', **kwargs)
         self.text_widget = None
 
@@ -20,6 +20,16 @@ class LineNumber(Text):
         self.delete(1.0, 'end')
         self.insert(1.0, lines)
         self.config(state='disabled')
+
+    def attach_text_widget(self, text_widget):
+        self.text_widget = text_widget
+        self.text_widget.bind("<KeyRelease>", self.update_line_numbers)
+        self.text_widget.bind("<ButtonRelease>", self.update_line_numbers)
+        self.text_widget['yscrollcommand'] = self.on_textscroll
+
+    def on_textscroll(self, *args):
+        self.yview(*args)
+
 
 
 
