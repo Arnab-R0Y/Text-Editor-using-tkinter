@@ -1,36 +1,36 @@
 from tkinter import *
-from tkinter import scrolledtext
-
 from menubar import MenuBar
+from panel import SlideMenu
 
 root = Tk()
 root.title("Shashank's Text Editor")
 root.geometry("700x800")
 
-menu=MenuBar(root)
+menu = MenuBar(root)
 menu.Files()
 menu.Edit()
 menu.View()
 
-# Frame to hold Text + Scrollbar
-frame = Frame(root)
-frame.pack(fill=BOTH, expand=True)
+#Toolbar Frame at top (for SlideMenu button)
+toolbar_frame = Frame(root, bg="lightgrey", height=30)
+toolbar_frame.pack(side=TOP, fill=X)
 
-text = Text(frame, wrap=WORD)
+#Main Frame for Text and Scrollbar below toolbar
+text_frame = Frame(root)
+text_frame.pack(fill=BOTH, expand=True)
+
+text = Text(text_frame, wrap=WORD, font=("Arial", 12))
 text.pack(side=LEFT, fill=BOTH, expand=True)
 
-scrollbar = Scrollbar(frame, command=text.yview)
+scrollbar = Scrollbar(text_frame, command=text.yview)
+scrollbar.pack(side=RIGHT, fill=Y)
 text.config(yscrollcommand=scrollbar.set)
 
-scrollbar.pack(side=RIGHT, fill=Y)
-
-def autohide_scrollbar(event=None):
-    if text.yview() == (0.0, 1.0):  # Content fits
-        scrollbar.pack_forget()
-    else:
-        scrollbar.pack(side=RIGHT, fill=Y)
-
-text.bind("<Configure>", autohide_scrollbar)
-text.bind("<KeyRelease>", autohide_scrollbar)
+#Initialize SlideMenu with toolbar_frame and text
+slide_menu = SlideMenu(root, text)
+slide_menu.toolbar.destroy()  # Remove default toolbar created in SlideMenu
+slide_menu.toolbar = toolbar_frame  # Assign our own toolbar frame
+slide_menu.menu_button = Button(toolbar_frame, text=" ☰ ", command=slide_menu.toggle_menu)
+slide_menu.menu_button.pack(side=LEFT, padx=2, pady=2)
 
 root.mainloop()
